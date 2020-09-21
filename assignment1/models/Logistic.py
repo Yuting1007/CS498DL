@@ -11,7 +11,7 @@ class Logistic:
             lr: the learning rate
             epochs: the number of epochs to train for
         """
-        self.w = None  # TODO: change this
+        self.w = None
         self.lr = lr
         self.epochs = epochs
         self.threshold = 0.5
@@ -25,8 +25,8 @@ class Logistic:
         Returns:
             the sigmoid of the input
         """
-        # TODO: implement me
-        return
+        ret = 1 / (1 + math.exp(-z))
+        return ret
 
     def train(self, X_train: np.ndarray, y_train: np.ndarray):
         """Train the classifier.
@@ -38,7 +38,12 @@ class Logistic:
                 N examples with D dimensions
             y_train: a numpy array of shape (N,) containing training labels
         """
-        # TODO: implement me
+        N, D = X_train.shape
+        self.w = np.random.randn(1, D)
+
+        for k in range(self.epochs):
+            for i in range(N):
+                self.w += self.lr * self.sigmoid(-y_train[i] * np.dot(self.w, X_train[i])) * y_train[i] * X_train[i]
         pass
 
     def predict(self, X_test: np.ndarray) -> np.ndarray:
@@ -53,5 +58,8 @@ class Logistic:
                 length N, where each element is an integer giving the predicted
                 class.
         """
-        # TODO: implement me
-        return
+        N, D = X_train.shape
+        y_test = np.zeros(N)
+        for i in range(N):
+            y_test[i] = sign(np.dot(self.w, X_test[i]))
+        return t_test

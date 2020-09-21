@@ -12,7 +12,7 @@ class Perceptron:
             lr: the learning rate
             epochs: the number of epochs to train for
         """
-        self.w = None  # TODO: change this
+        self.w = None # initialize in train()
         self.lr = lr
         self.epochs = epochs
         self.n_class = n_class
@@ -27,7 +27,20 @@ class Perceptron:
                 N examples with D dimensions
             y_train: a numpy array of shape (N,) containing training labels
         """
-        # TODO: implement me
+        N, D = X_train.shape
+        self.w = np.random.randn(self.n_class, D)
+
+        for k in range(self.epochs):
+            for i in range(N):
+                resp = np.dot(self.w, X_train[i]) # a vector of response
+                correct = resp[y_train[i]]
+                for j in range(self.n_class):
+                    if j == y_train[i]:
+                        self.w[j] += self.lr * X_train[i]
+                    if resp[j] > correct:
+                        self.w[j] -= self.lr * X_train[i]
+        # for t in self.w:
+        #     print(t)
         pass
 
     def predict(self, X_test: np.ndarray) -> np.ndarray:
@@ -42,5 +55,8 @@ class Perceptron:
                 length N, where each element is an integer giving the predicted
                 class.
         """
-        # TODO: implement me
-        return
+        N, D = X_test.shape
+        y_test = np.zeros(N)
+        for i in range(N):
+            y_test[i] = np.argmax(np.dot(self.w, X_test[i]))
+        return y_test
