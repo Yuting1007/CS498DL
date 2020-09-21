@@ -84,15 +84,15 @@ class SVM:
 
         # epochs is the number of steps
         # alpha is the length of one step
-        # grad_w is the direction of one step. For this task, grad_w is an integrated outcome for "size_of_batch" samples
+        # gradW is the direction of one step. For this task, gradW is an integrated outcome for "size_of_batch" samples
         for i in range(self.epochs):
             indices = np.random.choice(numData, size_of_batch)
             X_batch = X_train[indices]
             y_batch = y_train[indices]
 
-            grad_w = self.calc_gradient(X_batch, y_batch)
+            gradW = self.calc_gradient(X_batch, y_batch)
 
-            self.w -= self.alpha * grad_w
+            self.w -= self.alpha * gradW
 
     def predict(self, X_test: np.ndarray) -> np.ndarray:
         """Use the trained weights to predict labels for test data points.
