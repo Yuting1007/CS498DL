@@ -1,6 +1,7 @@
 """Logistic regression model."""
 
 import numpy as np
+import math
 
 
 class Logistic:
@@ -43,7 +44,9 @@ class Logistic:
 
         for k in range(self.epochs):
             for i in range(N):
-                self.w += self.lr * self.sigmoid(-y_train[i] * np.dot(self.w, X_train[i])) * y_train[i] * X_train[i]
+                self.w += self.lr * \
+                    self.sigmoid(-y_train[i] * np.dot(self.w,
+                                                      X_train[i])) * y_train[i] * X_train[i]
         pass
 
     def predict(self, X_test: np.ndarray) -> np.ndarray:
@@ -58,8 +61,8 @@ class Logistic:
                 length N, where each element is an integer giving the predicted
                 class.
         """
-        N, D = X_train.shape
+        N, D = X_test.shape
         y_test = np.zeros(N)
         for i in range(N):
             y_test[i] = sign(np.dot(self.w, X_test[i]))
-        return t_test
+        return y_test
