@@ -44,9 +44,13 @@ class Logistic:
 
         for k in range(self.epochs):
             for i in range(N):
+                if y_train[i] == 0:
+                    yt = -1
+                else:
+                    yt = 1
                 self.w += self.lr * \
-                    self.sigmoid(-y_train[i] * np.dot(self.w,
-                                                      X_train[i])) * y_train[i] * X_train[i]
+                    self.sigmoid(-yt * np.dot(self.w,
+                                              X_train[i])) * yt * X_train[i]
         pass
 
     def predict(self, X_test: np.ndarray) -> np.ndarray:
@@ -64,5 +68,9 @@ class Logistic:
         N, D = X_test.shape
         y_test = np.zeros(N)
         for i in range(N):
-            y_test[i] = sign(np.dot(self.w, X_test[i]))
+            resp = np.sign(np.dot(self.w, X_test[i]))
+            if resp == -1:
+                y_test[i] = 0
+            else:
+                y_test[i] = 1
         return y_test
